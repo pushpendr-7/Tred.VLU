@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Blockchain Ledger</h3>
+<ol>
+  {% for bl in blocks %}
+    <li>
+      <details>
+        <summary>#{{ bl.index }} — {{ bl.event_type }} — {{ bl.timestamp }}</summary>
+        <pre>prev: {{ bl.previous_hash }}
+hash: {{ bl.hash }}
+payload: {{ bl.payload|safe }}</pre>
+      </details>
+    </li>
+  {% empty %}
+    <li>No blocks yet.</li>
+  {% endfor %}
+</ol>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<article>
+  <header><h2>{{ item.title }}</h2></header>
+  {% if item.image %}
+    <img src="{{ item.image.url }}" alt="{{ item.title }}" style="max-width:400px;height:auto" />
+  {% endif %}
+  <p>{{ item.description }}</p>
+  <p>Address: {{ item.address }}</p>
+  <p>Start price: ₹{{ item.start_price }}</p>
+  <p>Status: {% if item.is_active %}Active{% else %}Waiting for 2+ unique bidders{% endif %}</p>
+  <h4>Bids</h4>
+  <ul>
+    {% for b in bids %}
+      <li>₹{{ b.amount }} by {{ b.user.username }} at {{ b.created_at }}</li>
+    {% empty %}
+      <li>No bids yet</li>
+    {% endfor %}
+  </ul>
+  {% if request.user.is_authenticated %}
+    <form method="post" action="/items/{{ item.id }}/bid/">{% csrf_token %}
+      {{ bid_form.as_p }}
+      <button type="submit">Place bid</button>
+    </form>
+  {% else %}
+    <p><a href="/login/">Login to bid</a></p>
+  {% endif %}
+
+  {% if is_top_bidder %}
+    <p>
+      <a role="button" href="/pay/{{ item.id }}/">Pay with Google Pay (TEST) — ₹{{ top_bid.amount }}</a>
+    </p>
+  {% endif %}
+</article>
+{% endblock %}

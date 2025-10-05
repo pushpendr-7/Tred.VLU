@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Google Pay (TEST)</h3>
+<p>Amount: ₹{{ amount }}</p>
+<form method="post" action="/pay/{{ item.id }}/callback/">{% csrf_token %}
+  <input type="hidden" name="token" value="test-token" />
+  <button type="submit">Simulate Pay</button>
+</form>
+<p>This is a demo; real Google Pay requires merchant tokens and verification.</p>
+{% endblock %}

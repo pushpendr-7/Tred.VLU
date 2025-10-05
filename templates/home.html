@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Latest Items</h2>
+<div class="grid">
+  {% for it in items %}
+  <article>
+    <header>
+      <strong><a href="/items/{{ it.id }}/">{{ it.title }}</a></strong>
+    </header>
+    {% if it.image %}
+      <img src="{{ it.image.url }}" alt="{{ it.title }}" style="max-width:100%;height:auto" />
+    {% endif %}
+    <p>{{ it.description|truncatechars:120 }}</p>
+    <footer>
+      Start: ₹{{ it.start_price }}{% if it.is_active %} · Active{% endif %}
+    </footer>
+  </article>
+  {% empty %}
+  <p>No items yet.</p>
+  {% endfor %}
+</div>
+{% endblock %}
