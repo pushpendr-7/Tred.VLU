@@ -1,5 +1,18 @@
 services:
   - type: web
+    name: tred-vlu
+    env: python
+    plan: free
+    pythonVersion: "3.11.8"
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn auction_site.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+#services:
+  - type: web
     name: auction-site
     env: python
     plan: free
