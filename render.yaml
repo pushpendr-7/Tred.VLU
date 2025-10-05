@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: auction-site
+    env: python
+    buildCommand: pip install -r requirements.txt && python auction_site/manage.py collectstatic --noinput
+    startCommand: gunicorn auction_site.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6
+      - key: DJANGO_SETTINGS_MODULE
+        value: auction_site.settings
+      - key: WEB_CONCURRENCY
+        value: 2
+    autoDeploy: true
+    plan: free
