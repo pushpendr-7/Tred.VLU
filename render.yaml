@@ -1,20 +1,16 @@
-env: python
-plan: free
-pythonVersion: "3.11.8"
-
-buildCommand: |
-  pip install --upgrade pip setuptools wheel
-  pip install -r requirements.txt
-  python manage.py collectstatic --noinput
-
-startCommand: gunicorn auction_site.wsgi:application
-
-envVars:
-  - key: SECRET_KEY
-    generateValue: true
-  - key: DEBUG
-    value: "False"
-
+services:
+  - type: web
+    name: my-django-app
+    env: python
+    plan: free
+    pythonVersion: "3.11.8"
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn tredvlu.wsgi:application"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
 
 
 
